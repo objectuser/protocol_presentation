@@ -1,4 +1,4 @@
-defprotocol BlobStore do
+defmodule BlobStore.BlobStore do
   @moduledoc """
   Provide blob storage and retrieval.
   """
@@ -6,15 +6,13 @@ defprotocol BlobStore do
   alias BlobStore.Blob
 
   @doc """
-  Store an object in the blob store with the given bucket, name and content.
+  Put an object in the store with the given bucket, name and content.
   """
-  @spec put(t(), bucket :: String.t(), name :: String.t(), content :: String.t()) ::
-          {:ok, Blob.t()} | {:error, any()}
-  def put(blob_store, bucket, name, content)
+  @callback put(bucket :: String.t(), name :: String.t(), content :: String.t()) ::
+              {:ok, Blob.t()} | {:error, any()}
 
   @doc """
-  Get the object from the store for the given bucket and name.
+  Get the object from the bucket with the given name.
   """
-  @spec get(t(), bucket :: String.t(), name :: String.t()) :: {:ok, Blob.t()} | {:error, any()}
-  def get(blob_store, bucket, name)
+  @callback get(bucket :: String.t(), name :: String.t()) :: {:ok, Blob.t()} | {:error, any()}
 end

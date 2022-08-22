@@ -5,30 +5,27 @@ defmodule BlobStore.DevBlobStore do
 
   defstruct [:pid]
 
-  alias BlobStore.DevBlobStore
+  alias BlobStore.Blob
 
   @doc """
   Create a struct holding the process for storing the blobs.
   """
   def new do
-    {:ok, pid} = Agent.start_link(fn -> Map.new() end)
-    %DevBlobStore{pid: pid}
+    Agent.start_link(fn -> Map.new() end, name: __MODULE__)
   end
 
-  defimpl BlobStore, for: BlobStore.DevBlobStore do
-    alias BlobStore.Blob
+  @impl BlobStore.BlobStore
+  def put(bucket, name, content) do
+    Agent.get_and_update(__MODULE__, fn state ->
+      blob = %Blob{bucket: bucket, name: name, content: content}
+      {{:ok, blob}, Map.put(state, {bucket, name}, blob)}
+    end)
+  end
 
-    def put(%DevBlobStore{pid: pid} = _blob_store, bucket, name, content) do
-      Agent.get_and_update(pid, fn state ->
-        blob = %Blob{bucket: bucket, name: name, content: content}
-        {{:ok, blob}, Map.put(state, {bucket, name}, blob)}
-      end)
-    end
-
-    def get(%DevBlobStore{pid: pid} = _blob_store, bucket, name) do
-      Agent.get(pid, fn state ->
-        {:ok, Map.get(state, {bucket, name})}
-      end)
-    end
+  @impl BlobStore.BlobStore
+  def get(bucket, name) do
+    Agent.get(__MODULE__, fn state ->
+      {:ok, Map.get(state, {bucket, name})}
+    end)
   end
 end
