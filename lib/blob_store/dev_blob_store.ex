@@ -1,4 +1,8 @@
 defmodule BlobStore.DevBlobStore do
+  @moduledoc """
+  Store blobs in a local process.
+  """
+
   defstruct [:pid]
 
   alias BlobStore.DevBlobStore
