@@ -7,6 +7,9 @@ defmodule BlobStore.DevBlobStore do
 
   alias BlobStore.DevBlobStore
 
+  @doc """
+  Create a struct holding the process for storing the blobs.
+  """
   def new do
     {:ok, pid} = Agent.start_link(fn -> Map.new() end)
     %DevBlobStore{pid: pid}

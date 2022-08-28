@@ -1,6 +1,6 @@
 defprotocol BlobStore do
   @moduledoc """
-  Store blobs.
+  Provide blob storage and retrieval.
   """
 
   alias BlobStore.Blob

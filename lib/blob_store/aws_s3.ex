@@ -25,6 +25,10 @@ defmodule BlobStore.AwsS3 do
         secret_access_key: secret_access_key,
         region: region
       )
+      |> case do
+        {:ok, _} -> {:ok, %Blob{bucket: bucket, name: name, content: content}}
+        error -> error
+      end
     end
 
     def get(
@@ -42,9 +46,10 @@ defmodule BlobStore.AwsS3 do
         secret_access_key: secret_access_key,
         region: region
       )
-      |> then(fn {:ok, %{body: body}} = _response ->
-        %Blob{bucket: bucket, name: name, content: body}
-      end)
+      |> case do
+        {:ok, %{body: body}} -> {:ok, %Blob{bucket: bucket, name: name, content: body}}
+        error -> error
+      end
     end
   end
 end
