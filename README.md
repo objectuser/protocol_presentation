@@ -53,7 +53,9 @@ few advantages:
 - the use of the protocol module is recognized by the compiler and other tooling
     - eg docs are available in VSCode
     - compare this to the typical `Application.get_env/3` that returns an atom
-    with no accompanying information
+      with no accompanying information
+    - note that structs may only be created in `runtime.exs`, not the compile
+      time configs, while atoms (behaviours) may be defined anywhere
 - structs may carry state
     - eg tests using state can run async and not interfere with each other
 
