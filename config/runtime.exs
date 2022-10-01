@@ -11,8 +11,8 @@ case Config.config_env() do
       ]
 
   :dev ->
-    config :blob_store, blob_store: BlobStore.DevBlobStore.new()
+    config :blob_store, blob_store: BlobStore.DevBlobStore
 
   :test ->
-    config :blob_store, blob_store: BlobStore.DevBlobStore.new()
+    config :blob_store, blob_store: BlobStore.DevBlobStore
 end

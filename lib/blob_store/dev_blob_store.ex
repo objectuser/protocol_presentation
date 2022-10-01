@@ -3,7 +3,7 @@ defmodule BlobStore.DevBlobStore do
   Store blobs in a local process.
   """
 
-  defstruct [:pid]
+  @behaviour BlobStore.BlobStore
 
   alias BlobStore.Blob
 

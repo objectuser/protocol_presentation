@@ -3,13 +3,21 @@ defmodule BlobStore.GatewayTest do
 
   alias BlobStore.Blob
   alias BlobStore.Gateway
-  alias BlobStore.TestBlobStore
+
+  setup do
+    {:ok, _pid} = blob_store().new()
+    :ok
+  end
 
   test "put/get" do
     blob = %Blob{bucket: "bucket", name: "name", content: "content"}
-    blob_store = %TestBlobStore{put_response: {:ok, blob}, get_response: {:ok, blob}}
 
-    assert {:ok, ^blob} = Gateway.put_blob(blob_store, blob)
-    assert {:ok, ^blob} = Gateway.get_blob(blob_store, "bucket", "name")
+    assert {:ok, ^blob} = Gateway.put_blob(blob)
+    assert {:ok, ^blob} = Gateway.get_blob("bucket", "name")
+  end
+
+  @spec blob_store :: BlobStore.BlobStore
+  defp blob_store do
+    Application.get_env(:blob_store, :blob_store)
   end
 end

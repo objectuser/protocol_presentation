@@ -1,9 +1,12 @@
 defmodule BlobStoreTest do
   use ExUnit.Case
 
-  test "store" do
+  setup do
     {:ok, _pid} = blob_store().new()
+    :ok
+  end
 
+  test "store" do
     assert {:ok, blob} = blob_store().put("bucket", "name", "content")
     assert {:ok, ^blob} = blob_store().get("bucket", "name")
   end
