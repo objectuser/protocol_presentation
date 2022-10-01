@@ -8,7 +8,7 @@ defmodule BlobStore.DevBlobStore do
   alias BlobStore.Blob
 
   @doc """
-  Create a struct holding the process for storing the blobs.
+  Start a new blob store process.
   """
   def new do
     Agent.start_link(fn -> Map.new() end, name: __MODULE__)
