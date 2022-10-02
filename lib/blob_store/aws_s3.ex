@@ -3,8 +3,6 @@ defmodule BlobStore.AwsS3 do
   Store blobs in AWS S3.
   """
 
-  defstruct [:access_key_id, :secret_access_key, :region]
-
   @behaviour BlobStore.BlobStore
 
   alias BlobStore.Blob
