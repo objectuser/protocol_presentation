@@ -1,12 +1,13 @@
 # ProtocolPresentation
 
 A description with sample code of using protocols instead of behaviours for
-interfaces to external systems.
+interfaces to external systems and other areas requiring pluggable behavior.
 
 # Background
 
 It's common for Elixir applications to use `@behaviour`s for varying application
-behavior per environment.
+behavior per environment, especially when developing against external system
+interfaces.
 
 Quinn Wilton talked about using protocols instead of (or in addition to)
 behaviour's here: https://www.youtube.com/watch?v=fhheJ5zsXBQ
