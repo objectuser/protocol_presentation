@@ -13,7 +13,6 @@ defmodule BlobStore.Gateway do
     blob_store().put(bucket, name, content)
   end
 
-  @spec blob_store :: BlobStore.BlobStore
   defp blob_store do
     Application.get_env(:blob_store, :blob_store)
   end
