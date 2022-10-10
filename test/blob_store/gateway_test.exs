@@ -7,7 +7,7 @@ defmodule BlobStore.GatewayTest do
 
   test "put/get" do
     blob = %Blob{bucket: "bucket", name: "name", content: "content"}
-    blob_store = %TestBlobStore{put_response: {:ok, blob}, get_response: {:ok, blob}}
+    blob_store = TestBlobStore.new(put_response: {:ok, blob}, get_response: {:ok, blob})
 
     assert {:ok, ^blob} = Gateway.put_blob(blob_store, blob)
     assert {:ok, ^blob} = Gateway.get_blob(blob_store, "bucket", "name")

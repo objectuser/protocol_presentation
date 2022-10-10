@@ -15,7 +15,7 @@ defmodule BlobStore.Gateway do
   end
 
   @doc """
-  Store a new lub from the blob store.
+  Store a new blob from the blob store.
   """
   @spec put_blob(BlobStore.t(), Blob.t()) :: {:ok, Blob.t()} | {:error, any()}
   def put_blob(blob_store, %Blob{bucket: bucket, name: name, content: content}) do
