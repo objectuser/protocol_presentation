@@ -8,48 +8,35 @@ defmodule BlobStore.AwsS3 do
   alias BlobStore.Blob
   alias ExAws.S3
 
-  defimpl BlobStore, for: BlobStore.AwsS3 do
-    def put(
-          %BlobStore.AwsS3{
-            access_key_id: access_key_id,
-            secret_access_key: secret_access_key,
-            region: region
-          } = _blob_store,
-          bucket,
-          name,
-          content
-        ) do
+  defimpl BlobStore do
+    def put(blob_store, bucket, name, content) do
       S3.put_object(bucket, name, content)
-      |> ExAws.request(
-        access_key_id: access_key_id,
-        secret_access_key: secret_access_key,
-        region: region
-      )
+      |> request(blob_store)
       |> case do
         {:ok, _} -> {:ok, %Blob{bucket: bucket, name: name, content: content}}
         error -> error
       end
     end
 
-    def get(
-          %BlobStore.AwsS3{
-            access_key_id: access_key_id,
-            secret_access_key: secret_access_key,
-            region: region
-          } = _blob_store,
-          bucket,
-          name
-        ) do
+    def get(blob_store, bucket, name) do
       S3.get_object(bucket, name)
-      |> ExAws.request(
-        access_key_id: access_key_id,
-        secret_access_key: secret_access_key,
-        region: region
-      )
+      |> request(blob_store)
       |> case do
         {:ok, %{body: body}} -> {:ok, %Blob{bucket: bucket, name: name, content: body}}
         error -> error
       end
+    end
+
+    defp request(operation, %BlobStore.AwsS3{
+           access_key_id: access_key_id,
+           secret_access_key: secret_access_key,
+           region: region
+         }) do
+      ExAws.request(operation,
+        access_key_id: access_key_id,
+        secret_access_key: secret_access_key,
+        region: region
+      )
     end
   end
 end
